@@ -4,7 +4,7 @@
 ## 완성된 화면 
 
 
-##기능 상세
+## 기능 상세
   * TableView에 할 일은 추가할 수 있다.
   * TableView에서 할 일을 삭제할 수 있다. (스와이프해서 delete)
   * TableView에서 할 일을 재정렬 할 수 있다.
@@ -34,7 +34,9 @@ TableView를 사용하기 위해서는 uiTableView datasource와 UITableView del
     
 #### UITableViewDataSource
 UITableViewDataSource는 테이블 뷰를 정의하고 수정하는데 필요한 정보를 테이블 뷰 객체에 제공한다. 프로토콜에 정의되어있는 메서드는 아래 사진을 보자.
-(사진)
+
+<img width="584" alt="스크린샷 2022-01-30 오후 3 02 23" src="https://user-images.githubusercontent.com/96969693/151688683-c2662a5c-a31e-4507-94ce-038b4acda43d.png">
+
 옵셔널로 선언이 안된 두 가지의 메서드가 있는데, 이 메서드들은 다 필수로 채워주어야 한다.
 메서드를 살펴보자. (사진에도 주석으로 달려있다.)
   * numberOfRowsInSection : 각섹션에 표기할 행의 갯수, int타입으로 행의 갯수를 반환하면, 테이블뷰에 행이 그만큼 표시된다 (필수로 구현해야할 메서드이다.)
@@ -48,8 +50,8 @@ UITableViewDataSource는 테이블 뷰를 정의하고 수정하는데 필요한
 #### UITableViewDelegate
 테이블 뷰의 시각적인 부분을 설정하고, 행의 액션 관리, 액세서리 뷰 지원 그리고 테이블 뷰의 개별 행 편집을 도와준다. 해당 프로토콜은 필수로 구현해야할 메서드는 없다.
 
+<img width="605" alt="스크린샷 2022-01-30 오후 3 03 28" src="https://user-images.githubusercontent.com/96969693/151688698-90d3e58e-93e4-409d-8b45-1d1a7de5f576.png">
 
-    
 ### UIAlertController
   * 앱의 알럿을 표시할때 사용하는 프레임워크
 ### UserDefaults
