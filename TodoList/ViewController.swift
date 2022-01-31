@@ -20,7 +20,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.tableView.dataSource = self
+        self.tableView.delegate = self
         self.loadTasks() // 유저디폴츠에 저장된 할일을 앱을 껏다 켜도 다시 불러와주는것
+        
     }
 
     @IBAction func tapeditButton(_ sender: UIBarButtonItem) {
@@ -75,7 +77,24 @@ extension ViewController: UITableViewDataSource {
         // 사용하지 않는 메모리를 낭비하지 않기 위해서 dequeueResusableCell을 이용해서 셀을 재사용 하는 것
         let task = self.tasks[indexPath.row]
         cell.textLabel?.text = task.title
-        return cell
+        
+        // 셀 표시됐을 때 체크마크 표시되게 하는 코드
+        if task.done {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
         }
+        return cell
     }
+}
 
+extension ViewController: UITableViewDelegate {
+    // 메서드 정의 : 셀을 선택하였을 때 어떤 셀이 선택되었는지 알려주는 메서드 : didSelectRowAt
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // tasks 배열 요소에 접근해서, done이 true이면 false가 되게 만들어주고, false면 true 가 되게 만들어줄 것.
+        var task = self.tasks[indexPath.row]
+        task.done = !task.done   // 반대가 되게해줌
+        self.tasks[indexPath.row] = task
+        self.tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+}
