@@ -7,14 +7,20 @@
 
 import UIKit
 
+
 class ViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    var tasks = [Task]() // Task 배열 생성
+    var tasks = [Task]()  {
+        didSet { // 프로퍼티 옵저버, tasks 배열에 할일이 추가될 때마다 유저 디폴트에 할일이 저장됨
+            self.saveTasks()
+        }
+    }// Task 배열 생성
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.tableView.dataSource = self
+        self.loadTasks() // 유저디폴츠에 저장된 할일을 앱을 껏다 켜도 다시 불러와주는것
     }
 
     @IBAction func tapeditButton(_ sender: UIBarButtonItem) {
@@ -37,6 +43,27 @@ class ViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     
     }
+    func saveTasks() {
+        let data = self.tasks.map {
+            [
+                "title": $0.title,
+                "done": $0.done
+            ]
+        }
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(data, forKey: "tasks")
+    }
+    
+    func loadTasks() {
+        let userDefaults = UserDefaults.standard
+        guard let data = userDefaults.object(forKey: "tasks") as? [[String: Any]] else { return }
+        self.tasks = data.compactMap{
+            guard let title = $0["title"] as? String else { return nil }
+            guard let done = $0["done"] as? Bool else { return nil }
+            return Task(title: title, done: done)
+        }
+    }
+    
 }
 
 extension ViewController: UITableViewDataSource {
