@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var editButton: UIBarButtonItem!
+    var doneButton: UIBarButtonItem?
     var tasks = [Task]()  {
         didSet { // 프로퍼티 옵저버, tasks 배열에 할일이 추가될 때마다 유저 디폴트에 할일이 저장됨
             self.saveTasks()
@@ -18,6 +20,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTap))
         // Do any additional setup after loading the view.
         self.tableView.dataSource = self
         self.tableView.delegate = self
@@ -25,8 +28,16 @@ class ViewController: UIViewController {
         
     }
 
-    @IBAction func tapeditButton(_ sender: UIBarButtonItem) {
+    @objc func doneButtonTap() {
+        
     }
+    
+    @IBAction func tapeditButton(_ sender: UIBarButtonItem) {
+        guard !self.tasks.isEmpty else { return }
+        self.navigationItem.leftBarButtonItem = self.doneButton
+        self.tableView.setEditing(true, animated: true)
+    }
+    
     @IBAction func tapAddButton(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "할 일 등록", message: "할 일을 입력해주세요.", preferredStyle: .alert)
         let registerButton = UIAlertAction(title: "등록", style: .default, handler: { [weak self] _ in
