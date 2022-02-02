@@ -29,6 +29,8 @@ class ViewController: UIViewController {
     }
 
     @objc func doneButtonTap() {
+        self.navigationItem.leftBarButtonItem = self.editButton
+        self.tableView.setEditing(false, animated: true) //done버튼 누르면 edit에서 빠져나오도록 함.
         
     }
     
@@ -97,6 +99,33 @@ extension ViewController: UITableViewDataSource {
         }
         return cell
     }
+    
+    // commit for row at 이라는 메서드 구현
+    // 삭제버튼 눌렀을때, 삭제버튼이 눌린 셀이 어떤 셀인지 알려주는 메서드
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        self.tasks.remove(at: indexPath.row) // remove cell 알려주는 것.
+        tableView.deleteRows(at: [indexPath], with: .automatic) //automatic에니메이션을 설정하게 되면, 삭제버튼을 눌러서 삭제도 가능하고, 우리가 평소에 사용하던 스와이프해서 삭제하는 기능도 사용 가능하다.
+        if self.tasks.isEmpty { //모든셀이 삭제되면
+            self.doneButtonTap() // done버튼 메서드를 호출해서 편집모드를 빠져나오게 구현.
+        }
+    }
+    
+    //할일의 순서를 바꿀 수 있는 기능 구현
+    // move row at 메서드를 구현 : 행이 다른 위치로 변경되면, souceIndexPath 파라미터를 통해 어디에 있었는지 알려주고, destinationIndexPath 파라미터를 통해 어디로 이동했는지 알려준다.
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        // talbe뷰 셀이 재정렬 되면, 할일을 저장하는 배열도 재정렬 되어야함.
+        // 따라서 테이블뷰 셀이 재정렬된 순서대로, tasks 배열도 재정렬 해줘야해서 아래 처럼 구현
+        var tasks = self.tasks
+        let task = tasks[sourceIndexPath.row]
+        tasks.remove(at: sourceIndexPath.row)
+        tasks.insert(task, at: destinationIndexPath.row)
+        self.tasks = tasks
+    }
+    
 }
 
 extension ViewController: UITableViewDelegate {
