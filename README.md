@@ -1,8 +1,9 @@
-# TodoList
+# 간단한 TodoList 만들기
 
-## 투 두 리스트 만들기
-## 완성된 화면 
+## 완성된 화면
+<img width="1040" alt="스크린샷 2022-02-02 오후 4 03 35" src="https://user-images.githubusercontent.com/96969693/152108904-4fd58f23-936b-4f63-8272-215d24825529.png">
 
+👉🏻 Edit에서 할일 내용도 수정가능하게 기능 추가 예정
 
 ## 기능 상세
   * TableView에 할 일은 추가할 수 있다.
